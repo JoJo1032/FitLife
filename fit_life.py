@@ -4,6 +4,15 @@
 WATER_PER_KG = 30
 ML_PER_LITER = 1000
 
+MIN_USER_AGE = 1
+MAX_USER_AGE = 120
+
+MIN_USER_HEIGHT = 0.5
+MAX_USER_HEIGHT = 2.5
+
+MIN_USER_WEIGHT = 10
+MAX_USER_WEIGHT = 300
+
 
 def calculate_bmi(weight, height):
     """Вычисляет индекс массы тела."""
@@ -20,9 +29,11 @@ def get_valid_age():
     while True:
         try:
             user_age = int(input("Введите ваш возраст: "))
-            if 0 < user_age < 120:
+            if MIN_USER_AGE <= user_age <= MAX_USER_AGE:
                 return user_age
-            print("Ошибка: возраст должен быть в диапазоне от 1 до 119 лет.")
+            print(
+                f"Ошибка: возраст должен быть в диапазоне от {MIN_USER_AGE} "
+                f"до {MAX_USER_AGE} лет.")
         except ValueError:
             print("Ошибка: пожалуйста, введите целое число.")
 
@@ -32,9 +43,11 @@ def get_valid_weight():
     while True:
         try:
             user_weight = float(input("Введите ваш вес в кг (пример, 70.5): "))
-            if 10 <= user_weight <= 300:
+            if MIN_USER_WEIGHT <= user_weight <= MAX_USER_WEIGHT:
                 return user_weight
-            print("Ошибка: вес должен быть в пределах от 10 до 300 кг.")
+            print(
+                f"Ошибка: вес должен быть в пределах от {MIN_USER_WEIGHT} "
+                f"до {MAX_USER_WEIGHT} кг.")
         except ValueError:
             print("Ошибка: пожалуйста, введите число (можно с точкой).")
 
@@ -44,25 +57,32 @@ def get_valid_height():
     while True:
         try:
             user_height = float(input("Введите рост в метрах (пример 1.8): "))
-            if 0.5 <= user_height <= 2.5:
+            if MIN_USER_HEIGHT <= user_height <= MAX_USER_HEIGHT:
                 return user_height
-            print("Ошибка: рост должен быть в пределах от 0.5 до 2.5 метров.")
+            print(
+                f"Ошибка: рост должен быть в пределах от {MIN_USER_HEIGHT} "
+                f"до {MAX_USER_HEIGHT} метров.")
         except ValueError:
             print("Ошибка: пожалуйста, введите число (можно с точкой).")
+
+
+def get_valid_user_name():
+    """Запрашивает и проверяет корректность имени."""
+    while True:
+        try:
+            user_name = input("Введите ваше имя: ").strip()
+            if not user_name or any(char.isdigit() for char in user_name):
+                print("Имя не может быть пустым и без чисел.")
+            else:
+                return user_name
+        except ValueError:
+            print("Ошибка: имя не должно состоять только из чисел.")
 
 
 def main():
     """Основная логика программы."""
     print("---------------FitLife---------------\n")
-
-    user_name = input("Введите ваше имя: ").strip()
-    while not user_name or user_name.isdigit():
-        if not user_name:
-            print("Имя не может быть пустым.")
-        else:
-            print("Ошибка: имя не должно состоять только из чисел.")
-        user_name = input("Введите ваше имя: ").strip()
-
+    user_name = get_valid_user_name()
     user_age = get_valid_age()
     user_weight = get_valid_weight()
     user_height = get_valid_height()
